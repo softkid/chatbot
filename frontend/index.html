@@ -618,6 +618,22 @@
           </div>
         </div>
 
+        <!-- 실제 구동 시 필요한 비즈니스 맞춤형 AI 설정 필드 -->
+        <div class="form-group">
+          <label for="gen-welcome">👋 웰컴 메시지 (첫 인사)</label>
+          <input type="text" id="gen-welcome" value="안녕하세요! 🌊 Waveletica AI 상담에 오신 것을 환영합니다. 무엇을 도와드릴까요?" placeholder="사용자가 챗봇을 열었을 때 나오는 웰컴 메시지" oninput="generateConfig()">
+        </div>
+
+        <div class="form-group">
+          <label for="gen-prompt">🤖 AI 시스템 프롬프트 (성격 및 정체성)</label>
+          <input type="text" id="gen-prompt" value="당신은 Waveletica의 공식 AI 상담원입니다. 질문에 친절하고 정중하게 답변하세요." placeholder="AI가 인지할 비즈니스 정체성과 전문 답변 프롬프트" oninput="generateConfig()">
+        </div>
+
+        <div class="form-group">
+          <label for="gen-quick">💡 추천 단축 질문 목록 (쉼표로 구분)</label>
+          <input type="text" id="gen-quick" value="서비스 주요 기능 소개, 플랫폼 이용 가이드, 비즈니스 제휴 문의" placeholder="추천 질문 버튼 (예: 서비스 소개, 이용 안내, 제휴 문의)" oninput="generateConfig()">
+        </div>
+
         <button class="btn-generate" onclick="generateConfig()">🚀 코드 실시간 빌드</button>
       </div>
 
@@ -697,11 +713,21 @@
       const chatId = document.getElementById('gen-chatid').value.trim() || '8414562266';
       const botToken = document.getElementById('gen-token').value.trim() || 'YOUR_TELEGRAM_BOT_TOKEN';
 
+      const welcomeMsg = (document.getElementById('gen-welcome').value.trim() || '안녕하세요! 무엇을 도와드릴까요?').replace(/'/g, "''");
+      const systemPrompt = (document.getElementById('gen-prompt').value.trim() || '당신은 AI 상담원입니다.').replace(/'/g, "''");
+      const quickInput = document.getElementById('gen-quick').value.trim();
+
       // Update color text
       document.getElementById('color-hex').textContent = themeColor.toUpperCase();
 
-      const welcomeMsg = `안녕하세요! ${botTitle}의 공식 AI 비서입니다.<br>무엇이든 물어보세요!`;
-      const systemPrompt = `당신은 ${botTitle}의 전문 어시스턴트입니다. 정중하고 지혜롭게 안내하세요.`;
+      // Build recommendations array for SQL
+      let quickArraySql = 'NULL';
+      if (quickInput) {
+        const quicks = quickInput.split(',').map(q => q.trim()).filter(q => q.length > 0);
+        if (quicks.length > 0) {
+          quickArraySql = 'ARRAY[' + quicks.map(q => `'${q.replace(/'/g, "''")}'`).join(', ') + ']';
+        }
+      }
 
       // 1. HTML Embed Code
       const embedCode = `<script src="https://chatbot-backend.goodprogram.workers.dev/api/telegram/widget.js?siteKey=${siteKey}" async><\/script>`;
@@ -716,6 +742,7 @@ INSERT INTO chatbot_configs (
   welcome_message, 
   system_prompt, 
   theme_color,
+  quick_questions,
   telegram_chat_id${botToken !== 'YOUR_TELEGRAM_BOT_TOKEN' && botToken !== '' ? ',\n  telegram_bot_token' : ''}
 ) VALUES (
   '${siteKey}',
@@ -724,6 +751,7 @@ INSERT INTO chatbot_configs (
   '${welcomeMsg}',
   '${systemPrompt}',
   '${themeColor}',
+  ${quickArraySql},
   '${chatId}'${botToken !== 'YOUR_TELEGRAM_BOT_TOKEN' && botToken !== '' ? `,\n  '${botToken}'` : ''}
 ) ON CONFLICT (site_key) 
 DO UPDATE SET 
@@ -732,6 +760,7 @@ DO UPDATE SET
   welcome_message = EXCLUDED.welcome_message,
   system_prompt = EXCLUDED.system_prompt,
   theme_color = EXCLUDED.theme_color,
+  quick_questions = EXCLUDED.quick_questions,
   telegram_chat_id = EXCLUDED.telegram_chat_id${botToken !== 'YOUR_TELEGRAM_BOT_TOKEN' && botToken !== '' ? ',\n  telegram_bot_token = EXCLUDED.telegram_bot_token' : ''};`;
       document.getElementById('code-sql').textContent = sqlScript;
 
