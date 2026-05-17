@@ -31,8 +31,8 @@ app.use('*', cors({
       }
 
       // Query Supabase chatbot_configs dynamically to check if origin is registered!
-      const supabaseUrl = c.env.SUPABASE_URL
-      const supabaseKey = c.env.SUPABASE_KEY
+      const supabaseUrl = c.env.SUPABASE_URL || 'https://jgueqnywthkjledvqqrm.supabase.co'
+      const supabaseKey = c.env.SUPABASE_KEY || 'sb_publishable_n-LpvYGkVOQD9UiSph1Euw_9KotY20k'
       if (supabaseUrl && supabaseKey) {
         const { createClient } = await import('@supabase/supabase-js')
         const supabase = createClient(supabaseUrl, supabaseKey)
