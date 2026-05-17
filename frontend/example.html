@@ -234,7 +234,7 @@
 
       // 2. Dynamically inject new widget script with custom siteKey
       const script = document.createElement('script');
-      script.src = 'https://agentumi-chatbot-backend.goodprogram.workers.dev/api/telegram/widget.js?siteKey=' + siteKey;
+      script.src = 'https://chatbot-backend.goodprogram.workers.dev/api/telegram/widget.js?siteKey=' + siteKey;
       script.async = true;
       document.body.appendChild(script);
     }
