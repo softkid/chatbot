@@ -81,16 +81,16 @@ npx wrangler secret put TELEGRAM_CHAT_ID
 ```bash
 npx wrangler deploy
 ```
-* 성공적으로 완료되면 `https://agentumi-chatbot-backend.[도메인].workers.dev` 형태의 배포 URL이 발급됩니다.
+* 성공적으로 완료되면 `https://chatbot-backend.goodprogram.workers.dev` 형태의 배포 URL이 발급됩니다.
 
 ---
 
 ## 🌐 3단계: 텔레그램 웹훅(Webhook) 동기화
 
 텔레그램 운영자 답장 기능(Reply)이 즉시 연동되도록 Workers 주소와 웹훅을 동기화합니다.
-1. 웹 브라우저를 열고 아래 URL 주소로 접속합니다 (배포 주소로 변경하여 접속).
+1. 웹 브라우저를 열고 아래 URL 주소로 접속합니다.
    ```text
-   https://[본인의-Workers-배포-주소]/api/telegram/set-webhook?siteKey=hub-invest
+   https://chatbot-backend.goodprogram.workers.dev/api/telegram/set-webhook?siteKey=hub-invest
    ```
 2. 화면에 `{"success":true,"webhookUrl":"...","telegramResponse":{"ok":true,...}}` 응답이 나오면 양방향 연동 통신이 수립된 것입니다.
 
@@ -114,12 +114,12 @@ npx wrangler deploy
 
 ### A. 교육 사이트 테넌트 (`ai-edu` - 파란색 테마, 교육 특화 AI 성격)
 ```html
-<script src="https://[본인의-Workers-배포-주소]/api/telegram/widget.js?siteKey=ai-edu" async></script>
+<script src="https://chatbot-backend.goodprogram.workers.dev/api/telegram/widget.js?siteKey=ai-edu" async></script>
 ```
 
 ### B. 글로벌 투자/비즈니스 테넌트 (`hub-invest` - 에메랄드 테마, 격식 있는 투자 AI 성격)
 ```html
-<script src="https://[본인의-Workers-배포-주소]/api/telegram/widget.js?siteKey=hub-invest" async></script>
+<script src="https://chatbot-backend.goodprogram.workers.dev/api/telegram/widget.js?siteKey=hub-invest" async></script>
 ```
 
 ---
