@@ -1,0 +1,17 @@
+{
+  "name": "agentumi-chatbot-backend",
+  "version": "1.0.0",
+  "description": "Multi-tenant Domain-specific AI Chatbot Backend via Cloudflare Workers & Hono",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.8",
+    "hono": "^4.0.8"
+  },
+  "devDependencies": {
+    "wrangler": "^3.114.17"
+  }
+}

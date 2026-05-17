@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>다중 도메인 연동 검증 | Agentumi Chatbot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #0f0c1b;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #f5f6fa;
+      --text-muted: #a4b0be;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 24px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #00b894, #a29bfe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+    }
+    .btn-back {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .btn-back:hover { color: #f5f6fa; }
+
+    main {
+      flex: 1;
+      padding: 60px 8%;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .title-area {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .title-area h1 {
+      font-size: 38px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #f5f6fa, #a4b0be);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .title-area p {
+      color: var(--text-muted);
+      font-size: 16px;
+      font-weight: 300;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+      gap: 40px;
+    }
+
+    .demo-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .demo-card:hover {
+      border-color: rgba(255,255,255,0.15);
+    }
+    .demo-card.edu { --badge: #0984e3; }
+    .demo-card.invest { --badge: #00b894; }
+
+    .card-badge {
+      display: inline-block;
+      align-self: flex-start;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: var(--badge);
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .demo-card h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .demo-card p {
+      color: var(--text-muted);
+      font-size: 14.5px;
+      font-weight: 300;
+      margin-bottom: 30px;
+      flex: 1;
+    }
+
+    .code-box {
+      background: rgba(0,0,0,0.3);
+      padding: 16px;
+      border-radius: 12px;
+      font-family: monospace;
+      font-size: 12.5px;
+      color: #f5f6fa;
+      border: 1px solid var(--border);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .code-box span.tag { color: #ff7675; }
+    .code-box span.attr { color: #ffeaa7; }
+    .code-box span.val { color: #55efc4; }
+
+    .btn-test {
+      background: linear-gradient(135deg, var(--badge), rgba(255,255,255,0.05));
+      border: 1px solid var(--border);
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-test:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px var(--badge);
+    }
+
+    footer {
+      padding: 40px 8%;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 500px) {
+      .demo-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">Agentumi Chat.</a>
+    <a href="index.html" class="btn-back">← 소개 페이지로 돌아가기</a>
+  </header>
+
+  <main>
+    <div class="title-area">
+      <h1>다중 도메인 멀티테넌트 검증</h1>
+      <p>아래에서 원하는 도메인의 테스트 버튼을 누르면 해당 도메인의 맞춤형 프롬프트와 테마로 구성된 챗봇이 우측 하단에 동적 로드됩니다.</p>
+    </div>
+
+    <div class="demo-grid">
+      <!-- Card 1: Education -->
+      <div class="demo-card edu">
+        <span class="card-badge">교육용 AI 컨설턴트</span>
+        <h2>🎓 부산 AI 교육 플랫폼</h2>
+        <p>
+          주요 코딩 과정 수강료, 무료 설명회 일정 정보 등을 제공하도록 특화된 챗봇 테넌트입니다. 시원한 블루 계열 테마와 아카데미 맞춤 상담 안내가 활성화됩니다.
+        </p>
+        <div class="code-box">
+          &lt;script src="https://chat.globalbusan.xyz/widget.js"<br>
+          &nbsp;&nbsp;<span class="attr">data-site-key</span>=<span class="val">"ai-edu"</span>&gt;&lt;/script&gt;
+        </div>
+        <button class="btn-test" onclick="loadChatbot('ai-edu')">이 챗봇 실행하기</button>
+      </div>
+
+      <!-- Card 2: Investment -->
+      <div class="demo-card invest">
+        <span class="card-badge">투자/사업개발 파트너십</span>
+        <h2>💼 글로벌 부산 투자 허브</h2>
+        <p>
+          신규 비즈니스 프로젝트 신청 절차, 글로벌 지출 투자 등의 가이드에 특화된 챗봇 테넌트입니다. 격조 높고 정중한 에메랄드 테마와 비즈니스 문의 안내가 활성화됩니다.
+        </p>
+        <div class="code-box">
+          &lt;script src="https://chat.globalbusan.xyz/widget.js"<br>
+          &nbsp;&nbsp;<span class="attr">data-site-key</span>=<span class="val">"hub-invest"</span>&gt;&lt;/script&gt;
+        </div>
+        <button class="btn-test" onclick="loadChatbot('hub-invest')">이 챗봇 실행하기</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © 2026 Agentumi AI Engine. Multi-Tenant Verification Page.
+  </footer>
+
+  <script>
+    function loadChatbot(siteKey) {
+      // 1. Remove existing chatbot container if any
+      const existingContainer = document.getElementById('agentumi-chatbot-root');
+      if (existingContainer) {
+        existingContainer.remove();
+        window.AgentumiChatbotInitialized = false; // Reset initialization flag to allow reload
+      }
+
+      // 2. Dynamically inject new widget script with custom siteKey
+      const script = document.createElement('script');
+      script.src = 'https://agentumi-chatbot-backend.goodprogram.workers.dev/api/telegram/widget.js?siteKey=' + siteKey;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  </script>
+
+</body>
+</html>

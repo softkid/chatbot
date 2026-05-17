@@ -1,0 +1,12 @@
+name = "agentumi-chatbot-backend"
+main = "src/index.js"
+compatibility_date = "2024-01-27"
+compatibility_flags = ["nodejs_compat"]
+
+# Environment Variables & Secrets
+# 백엔드 배포 후 아래 시크릿 변수들을 wrangler secret put으로 기재해야 정상 구동됩니다.
+# - SUPABASE_URL
+# - SUPABASE_KEY
+# - GEMINI_API_KEY
+# - TELEGRAM_BOT_TOKEN
+# - TELEGRAM_CHAT_ID
