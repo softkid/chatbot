@@ -142,13 +142,20 @@ app.post('/send', async (c) => {
     if (botToken && chatId) {
       const telegramText = `🌐 [${config.bot_title}]\n새로운 문의가 등록되었습니다!\n\n👤 세션 ID: ${sessionId}\n💬 질문: ${message}\n🤖 AI 답변: ${aiReply.substring(0, 150)}...\n\n💡 이 메시지에 [답장(Reply)] 기능을 사용해 답변을 작성하시면, 문의 고객의 웹 챗봇 화면에 실시간으로 전달됩니다.`
       
+      const payload = {
+        chat_id: chatId,
+        text: telegramText
+      }
+
+      // 텔레그램 그룹 내 특정 토픽(Topic) 연동 지원
+      if (config.telegram_thread_id) {
+        payload.message_thread_id = parseInt(config.telegram_thread_id, 10)
+      }
+      
       const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: telegramText
-        })
+        body: JSON.stringify(payload)
       })
 
       if (tgRes.ok) {
