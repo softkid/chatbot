@@ -1,0 +1,8 @@
+{
+  "name": "agentumi-chatbot-frontend",
+  "version": "1.0.0",
+  "description": "Static frontend for Agentumi AI Chatbot Landing Page",
+  "scripts": {
+    "build": "echo 'Build successful: Static frontend files ready.'"
+  }
+}
