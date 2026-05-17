@@ -305,6 +305,192 @@
       .hero-btns { justify-content: center; }
       header { padding: 20px 4%; }
     }
+
+    /* Interactive Widget Builder Form Styling */
+    .generator-section {
+      padding: 100px 8%;
+      border-top: 1px solid var(--border);
+      position: relative;
+    }
+    .generator-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 50px;
+      margin-top: 50px;
+      align-items: start;
+    }
+    .builder-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px 30px;
+      backdrop-filter: blur(20px);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .form-group input, .form-group select {
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1.5px solid var(--border);
+      color: #ffffff;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus {
+      border-color: var(--primary);
+      background: rgba(0, 0, 0, 0.3);
+    }
+    .color-picker-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .color-picker-group input[type="color"] {
+      width: 45px;
+      height: 45px;
+      padding: 0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: transparent;
+    }
+    .btn-generate {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary), #00dec4);
+      color: #0f0c1b;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px var(--primary-glow);
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 10px;
+    }
+    .btn-generate:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 184, 148, 0.6);
+    }
+    
+    .output-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px 30px;
+      min-height: 450px;
+      display: flex;
+      flex-direction: column;
+    }
+    .output-tabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+      padding-bottom: 8px;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 14.5px;
+      font-weight: 600;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-radius: 8px;
+    }
+    .tab-btn:hover {
+      color: #ffffff;
+      background: rgba(255,255,255,0.03);
+    }
+    .tab-btn.active {
+      color: var(--primary);
+      background: rgba(0, 184, 148, 0.08);
+    }
+    .tab-pane {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+      flex: 1;
+    }
+    .tab-pane.active {
+      display: flex;
+    }
+    .output-box {
+      position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .output-pre {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 13px;
+      color: #a29bfe;
+      line-height: 1.6;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+      flex: 1;
+      max-height: 280px;
+    }
+    .action-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+    }
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: #ffffff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #ffffff;
+    }
+    .copied-toast {
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .copied-toast.show {
+      opacity: 1;
+    }
+
+    @media (max-width: 968px) {
+      .generator-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -386,6 +572,103 @@
     </div>
   </section>
 
+  <!-- Interactive Script Generator Section -->
+  <section class="generator-section" id="generator">
+    <div class="section-title">
+      <h2>🛠️ 맞춤형 연동 스크립트 & SQL 생성기</h2>
+      <p>연동을 원하는 도메인과 텔레그램 ID를 입력하시면, 내 사이트에 딱 맞는 임베딩 코드와 Supabase 데이터 주입 SQL을 즉시 빌드해 드립니다.</p>
+    </div>
+
+    <div class="generator-grid">
+      <!-- Input Panel -->
+      <div class="builder-card">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="gen-domain">🌐 연동 대상 도메인</label>
+            <input type="text" id="gen-domain" value="app.waveletica.xyz" placeholder="예: app.waveletica.xyz" oninput="generateConfig()">
+          </div>
+          <div class="form-group">
+            <label for="gen-key">🔑 고유 테넌트 키 (Site Key)</label>
+            <input type="text" id="gen-key" value="waveletica" placeholder="예: waveletica" oninput="generateConfig()">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="gen-title">💬 챗봇 타이틀 (Title)</label>
+            <input type="text" id="gen-title" value="🌊 Waveletica AI 상담" placeholder="예: 🌊 Waveletica AI 상담" oninput="generateConfig()">
+          </div>
+          <div class="form-group">
+            <label for="gen-color">🎨 챗봇 브랜드 색상 (Theme Color)</label>
+            <div class="color-picker-group">
+              <input type="color" id="gen-color" value="#3867d6" oninput="generateConfig()">
+              <span id="color-hex" style="font-size: 13.5px; font-weight:600; color:var(--text-muted);">#3867D6</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="gen-chatid">👤 텔레그램 수신 Chat ID</label>
+            <input type="text" id="gen-chatid" value="8414562266" placeholder="예: 8414562266" oninput="generateConfig()">
+          </div>
+          <div class="form-group">
+            <label for="gen-token">🤖 전용 봇 토큰 (선택사항)</label>
+            <input type="password" id="gen-token" value="YOUR_TELEGRAM_BOT_TOKEN" placeholder="공용 봇 사용 시 수정 불필요" oninput="generateConfig()">
+          </div>
+        </div>
+
+        <button class="btn-generate" onclick="generateConfig()">🚀 코드 실시간 빌드</button>
+      </div>
+
+      <!-- Output Panel -->
+      <div class="output-card">
+        <div class="output-tabs">
+          <button class="tab-btn active" onclick="switchTab('tab-embed', this)">🧩 1. HTML 임베딩 코드</button>
+          <button class="tab-btn" onclick="switchTab('tab-sql', this)">🗄️ 2. Supabase SQL</button>
+          <button class="tab-btn" onclick="switchTab('tab-webhook', this)">🔗 3. 텔레그램 웹훅</button>
+        </div>
+
+        <!-- HTML Embed -->
+        <div class="tab-pane active" id="tab-embed">
+          <p style="font-size: 13.5px; color: var(--text-muted); font-weight:300;">
+            아래 스크립트 태그를 복사하여 귀하의 웹사이트 HTML 내 <code>&lt;/body&gt;</code> 직전에 추가해 주세요.
+          </p>
+          <div class="output-box">
+            <pre class="output-pre" id="code-embed"></pre>
+            <div class="action-row">
+              <span class="copied-toast" id="toast-embed">복사 완료!</span>
+              <button class="copy-btn" onclick="copyText('code-embed', 'toast-embed')">코드 복사하기</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SQL -->
+        <div class="tab-pane" id="tab-sql">
+          <p style="font-size: 13.5px; color: var(--text-muted); font-weight:300;">
+            Supabase Dashboard -> SQL Editor를 열고 아래 쿼리를 복사하여 붙여넣고 실행하세요.
+          </p>
+          <div class="output-box">
+            <pre class="output-pre" id="code-sql"></pre>
+            <div class="action-row">
+              <span class="copied-toast" id="toast-sql">복사 완료!</span>
+              <button class="copy-btn" onclick="copyText('code-sql', 'toast-sql')">SQL 복사하기</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Webhook -->
+        <div class="tab-pane" id="tab-webhook">
+          <p style="font-size: 13.5px; color: var(--text-muted); font-weight:300;">
+            운영자가 텔레그램에서 답장(Reply) 시 챗봇 웹화면으로 안전하게 연동되도록 웹훅 동기화를 마칩니다.
+          </p>
+          <div class="output-box" id="code-webhook" style="color: var(--text); font-size:14px; line-height: 1.8;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA Box -->
   <section class="cta" id="integration">
     <div class="cta-box">
@@ -402,8 +685,93 @@
   </footer>
 
   <!-- 챗봇 위젯 임베딩 (실시간 테스트용 - 투자 안내 위젯 장착!) -->
-  <!-- 이 스크립트는 이 페이지 자체에 실시간 동작 데모로 장착되어 우측 하단에서 정상 구동됩니다. -->
   <script src="https://chatbot-backend.goodprogram.workers.dev/api/telegram/widget.js?siteKey=hub-invest" async></script>
 
+  <!-- Script Generator Logic -->
+  <script>
+    function generateConfig() {
+      const domain = document.getElementById('gen-domain').value.trim() || 'app.waveletica.xyz';
+      const siteKey = document.getElementById('gen-key').value.trim() || 'waveletica';
+      const botTitle = document.getElementById('gen-title').value.trim() || '🌊 Waveletica AI 상담';
+      const themeColor = document.getElementById('gen-color').value || '#3867d6';
+      const chatId = document.getElementById('gen-chatid').value.trim() || '8414562266';
+      const botToken = document.getElementById('gen-token').value.trim() || 'YOUR_TELEGRAM_BOT_TOKEN';
+
+      // Update color text
+      document.getElementById('color-hex').textContent = themeColor.toUpperCase();
+
+      const welcomeMsg = `안녕하세요! ${botTitle}의 공식 AI 비서입니다.<br>무엇이든 물어보세요!`;
+      const systemPrompt = `당신은 ${botTitle}의 전문 어시스턴트입니다. 정중하고 지혜롭게 안내하세요.`;
+
+      // 1. HTML Embed Code
+      const embedCode = `<script src="https://chatbot-backend.goodprogram.workers.dev/api/telegram/widget.js?siteKey=${siteKey}" async><\/script>`;
+      document.getElementById('code-embed').textContent = embedCode;
+
+      // 2. Supabase SQL
+      const sqlScript = `-- 1. Supabase SQL Editor에 복사하여 붙여넣고 실행하세요.
+INSERT INTO chatbot_configs (
+  site_key, 
+  site_domain, 
+  bot_title, 
+  welcome_message, 
+  system_prompt, 
+  theme_color,
+  telegram_chat_id${botToken !== 'YOUR_TELEGRAM_BOT_TOKEN' && botToken !== '' ? ',\n  telegram_bot_token' : ''}
+) VALUES (
+  '${siteKey}',
+  '${domain}',
+  '${botTitle}',
+  '${welcomeMsg}',
+  '${systemPrompt}',
+  '${themeColor}',
+  '${chatId}'${botToken !== 'YOUR_TELEGRAM_BOT_TOKEN' && botToken !== '' ? `,\n  '${botToken}'` : ''}
+) ON CONFLICT (site_key) 
+DO UPDATE SET 
+  site_domain = EXCLUDED.site_domain,
+  bot_title = EXCLUDED.bot_title,
+  welcome_message = EXCLUDED.welcome_message,
+  system_prompt = EXCLUDED.system_prompt,
+  theme_color = EXCLUDED.theme_color,
+  telegram_chat_id = EXCLUDED.telegram_chat_id${botToken !== 'YOUR_TELEGRAM_BOT_TOKEN' && botToken !== '' ? ',\n  telegram_bot_token = EXCLUDED.telegram_bot_token' : ''};`;
+      document.getElementById('code-sql').textContent = sqlScript;
+
+      // 3. Webhook URL
+      const webhookUrl = `https://chatbot-backend.goodprogram.workers.dev/api/telegram/set-webhook?siteKey=${siteKey}`;
+      document.getElementById('code-webhook').innerHTML = `
+        <div style="background:rgba(0,0,0,0.2); padding:20px; border-radius:12px; border:1px solid var(--border);">
+          <strong>🔗 실시간 양방향 텔레그램 답장 연동 링크</strong><br><br>
+          <a href="${webhookUrl}" target="_blank" class="btn-action" style="display:inline-block; padding:10px 20px; font-size:14px; text-decoration:none;">텔레그램 웹훅 등록하기 (클릭)</a>
+          <br><br>
+          <span style="font-size:12px; color:var(--text-muted);">
+            ※ 이 링크를 클릭하면 귀하의 텔레그램 봇 웹훅이 저희 백엔드 서버와 자동으로 동기화됩니다.<br>
+            ※ 텔레그램 봇에 새로운 채팅방을 연동한 뒤, 이 버튼을 반드시 한 번 실행해 주셔야 합니다.
+          </span>
+        </div>
+      `;
+    }
+
+    function switchTab(tabId, btn) {
+      const card = btn.closest('.output-card');
+      card.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      card.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      
+      btn.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    function copyText(elementId, toastId) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById(toastId);
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+      });
+    }
+
+    // Initialize builder on load
+    window.addEventListener('DOMContentLoaded', () => {
+      generateConfig();
+    });
+  </script>
 </body>
 </html>
